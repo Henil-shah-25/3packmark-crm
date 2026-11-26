@@ -971,3 +971,6 @@ The application is deployed to **Vercel** as a full-stack Next.js project. Under
     - Created `wrangler.jsonc` (`name: "3packmark-crm"`, `compatibility_date: "2026-11-23"`, `compatibility_flags: ["nodejs_compat"]`, `upload_source_maps: false`) and `open-next.config.ts` (`defineCloudflareConfig({})`).
     - Added `.open-next/`, `.wrangler/`, and `.dev.vars` to `.gitignore`.
   - **Verification & Push:** `npx tsc --noEmit` passed (**Exit code 0, 0 errors**); committed and pushed `main` to `https://github.com/Henil-shah-25/3packmark-crm` (**Exit code 0**). Zero `vercel` commands run.
+- **2026-11-27 (Cloudflare OpenNext Build Script Fix):**
+  - Updated `package.json` `"build"` script to `"opennextjs-cloudflare build"` (preserving `"build:next": "next build"`) so Cloudflare's `npm run build` compiles `.open-next` before `npx wrangler deploy`.
+  - Verified `npx tsc --noEmit` (**Exit code 0, 0 errors**) and pushed `main` to `https://github.com/Henil-shah-25/3packmark-crm`.
