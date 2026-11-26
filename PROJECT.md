@@ -974,3 +974,7 @@ The application is deployed to **Vercel** as a full-stack Next.js project. Under
 - **2026-11-27 (Cloudflare OpenNext Build Script Fix):**
   - Updated `package.json` `"build"` script to `"opennextjs-cloudflare build"` (preserving `"build:next": "next build"`) so Cloudflare's `npm run build` compiles `.open-next` before `npx wrangler deploy`.
   - Verified `npx tsc --noEmit` (**Exit code 0, 0 errors**) and pushed `main` to `https://github.com/Henil-shah-25/3packmark-crm`.
+- **2026-11-27 (Vercel-Ready Next.js 16 Cleanup & GitHub Push):**
+  - Removed Cloudflare/OpenNext adapter files (`wrangler.jsonc`, `open-next.config.ts`) and uninstalled `@opennextjs/cloudflare` and `wrangler` (`246 packages` removed).
+  - Restored `package.json` `"build": "next build"` and `"start": "next start"`, kept `next.config.ts` clean (`productionBrowserSourceMaps: false`), and verified `vercel.json` (`/api/cron/tick` daily cron).
+  - **Verification & Push:** `npx tsc --noEmit` passed (**Exit code 0**), `npm run build` passed (**Exit code 0, 57/57 static pages + all routes**), and `git push origin main` pushed cleanly to `https://github.com/Henil-shah-25/3packmark-crm`. Zero `vercel` CLI commands run.
