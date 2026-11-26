@@ -1,0 +1,103 @@
+<USER_REQUEST>
+TASK: VISUAL POLISH PASS — make my CRM match the neatness of the Rapport reference. IMPLEMENTATION task: edit files directly, do not stop for plan approval, do not finish with only a report. Styling and layout only. Do not change data, logic, routes, features, stage names/colours, drag-and-drop, login, or integrations. Commit "pre-polish-backup" first.
+
+REFERENCES
+Open https://demo.codeandchill.store/rapport/#/overview and #/pipeline in the built-in browser and set the viewport to 1917x946. Open my app at the same size. Compare side by side and measure with DevTools. The numbers below are approximate (from screenshots); where the reference's computed values differ, the reference wins.
+
+1) FONT (highest impact)
+My app uses an Inter-style grotesk; the reference uses a rounded geometric sans (single-storey "a", round "e", straight-tailed "y"). Find the exact family: inspect the h1 "Sales Overview" in the reference and read computed font-family, and check DevTools → Network → Font for the loaded file. Load that family in my app (next/font/google or the project's equivalent, display: swap, only the weights 400/500/600 needed). If you cannot identify it, test "Outfit", then "Urbanist", against the reference glyphs side by side and use the closer one. Apply it app-wide, with font-variant-numeric: tabular-nums on all numbers and money. Remove the old font.
+
+2) TYPOGRAPHY RULES
+- Remove text-transform: uppercase and letter-spacing from ALL labels/eyebrows/section titles/badges across the app (REVENUE TREND, WON THIS MONTH, OPEN PIPELINE, WIN RATE, HOT OPPORTUNITIES, PRIORITY, MOVE DEAL STAGE, ACCOUNT INFORMATION, NEW LEAD in the lead panel, etc.). Use sentence case.
+- Scale: page title 46px / weight 500 / line-height 1.08 / letter-spacing -0.02em; card titles 18px / 500; stat value 26px / 500; stat label 15px / 400 at about 65% text opacity; body 15px / 400; small meta 14px / 400. No weight above 500 except tiny pill text (600). Reduce font-weight on the brand text "Developster CRM" to 500, size 24px.
+
+3) HEADER / TOP BAR
+- Content left padding 131px and right padding 48px at 1917px (fluid below).
+- Icon buttons exactly 50px circles (soft white, hairline border), icons 20px. Avatar: a 54px CIRCLE with a 3px white ring, pine background, initials centred (16px/500, white). Fix the current tall capsule (it must not overflow or stretch; set width = height, flex: none, border-radius: 50%).
+- Org switcher pill: 40px tall, 14px text. Nav tab text 16px / 400, active pill 50px tall (padding 0 22px). Tabs never wrap or overflow the page; if they don't fit, the tab track scrolls inside itself with a hidden scrollbar.
+- Dock: 76px wide (currently 95px), left 24px, icons 44px with 20px glyphs.
+
+4) PAGE HEADERS (Overview, Pipeline, all other pages)
+- Title left, then the stats in ONE row beside it (wrap under the title only below 1100px).
+- Each stat: a 58px circle (soft white, no coloured fill), a monochrome ink icon (the coloured green/red/yellow icons become ink), the value at 26px/500, the label under it in sentence case ("Won this month", "Open pipeline", "Win rate, closed deals"). No pill/border container around stats. Optional small pill badge beside the value only when it has a real value (e.g. "+5% vs last month"); hide "0% goal" style badges at zero. Fix pluralisation everywhere ("1 deal", "2 deals").
+- Remove the subtitle line "Performance analytics, high-priority..." from the header row (or make it a muted 14px line under the title).
+
+5) OVERVIEW LAYOUT
+Replace the stacked layout with a grid: grid-template-columns: minmax(0,1.4fr) minmax(0,1fr); gap 20px; large cards radius 40px, padding 24px 28px, soft translucent-white fill, hairline border, soft shadow.
+- Left: Revenue card. Title "Revenue" (18px/500, no dot, no uppercase). Controls top-right: 6M/12M sliding-pill toggle, a 44px circular ⋯ button, a 44px circular ↗ button. Value 36px/500 with the muted sub-text beside it. Legend row. Chart area about 250px high with dashed horizontal gridlines and y-axis labels ($0 / mid / max) and the month labels beneath. EMPTY STATE: keep the gridlines, axes and months, hide the red baseline, hide the "Target $0" pill, and centre a muted message "No won revenue yet. Closed deals will appear here."
+- Right: Hot deals card. Title "Hot deals" with a muted "by weighted value" and a circular + button and ↗. Content is a 2-column grid of BLACK (#17191A) deal cards, radius 32px, min-height 190px: close date + circular ⋯, title 22px/500, company 15px/80%, amount 22px/500 bottom-left, "<stage> · <probability>%" bottom-left under it, avatar bottom-right. No horizontal scroller, no PRIORITY badge. With 0 deals show a designed empty state; with 1 deal show one card.
+- Below: a second row of cards reusing the same grid (reserve a slot for a "Today" tasks card that will be added next; render existing widgets only, add no invented metrics).
+- Each card has an equal 20px gap; no card overflows horizontally. Below 1100px the grid is a single column.
+
+6) PIPELINE PAGE
+- Remove the "Active Business: ..." line (the top-bar org pill already shows it). Move "Import Leads from Google Sheets" into the toolbar as a 52px ghost pill button with an icon and the label "Import" (full label in tooltip), placed before the export button. Keep the feature working.
+- Toolbar (one row, 52px tall controls): search pill 324px wide (flex: 0 1 324px), owner chips, filter chips, Board/List sliding pill, export circle, then the black "+ New deal" pill pushed right. It wraps instead of clipping.
+- "All (14)": check what this number counts. It must be the number of deals (currently 1), not stages or a hardcoded value. Fix the count source, and apply it the same way to Active Only and Outcomes if they show counts.
+- Cards: height auto with min-height 190px, padding 20px 22px, radius 28px, title 22px/500 (max 2 lines), company 15px, amount 22px/500, avatars 28px. Today they are about 236px tall with about 28px titles — reduce them. Never fixed height, never clipped content.
+- Column header: stage name takes the remaining width with ellipsis (title attribute shows the full name), count pill, total, add button. Hide the total when it is $0. "15 min Meeting Booked" must not collapse the count/total.
+- Board: columns about 380px wide, 16px gap. The Won/Lost zone is a separate, fixed 150px column to the right of the scroller with a 16px gap, NOT overlapping a column. The scroller gets a soft fade on its right edge and scroll-snap. The last visible column must never be cut off by the Won/Lost zone. Won uses a neutral dashed box with a small green icon circle (not green text).
+- Empty column hint "Drop a deal here": 14px, muted, dashed 1.5px border, radius 24px.
+
+7) SPACING SYSTEM
+Page vertical rhythm: 24px between header and first block, 20px between cards, 12px between cards inside columns. Use a 4px spacing scale via CSS variables. Remove stray margins/paddings that create uneven gaps.
+
+8) APPLY EVERYWHERE
+Apply the font, type scale, sentence-case labels, 50px header controls, circular header icon buttons and card radius to every existing page and to the lead slide-over panel, modals, Settings, Automations and Email. Do not restyle the login page layout except the font.
+
+VERIFY (required)
+Take screenshots at 1917x946 of Overview and Pipeline from both the reference and my app, and paste a side-by-side summary of remaining differences. Also check 1440x900, 1024x768 and 390x844: no horizontal page overflow, no clipped text, no overlapping elements, header controls aligned. Confirm: no uppercase labels remain (grep for text-transform: uppercase and tracking-widest/uppercase classes), the avatar is a perfect circle, "All (N)" counts deals, "1 deal" grammar, no console errors. Run lint/build and paste git diff --stat. If any difference is still visible, keep fixing instead of reporting success.
+
+
+TASK: Replace my CRM's TOP navigation tabs with the GooeyNav component from React Bits (source attached below). IMPLEMENTATION task: edit files directly, do not stop for plan approval, do not finish with only a report. Only the top tab navigation changes. Commit "pre-gooeynav-backup" first.
+
+SCOPE (do not touch)
+Routes, pages, data, login, integrations, the left vertical dock, the Board/List and 6M/12M segmented toggles, the brand, org switcher, header icon buttons, avatar, colours and layout of everything else. Keep my existing mobile nav behaviour.
+
+1) INSTALL THE COMPONENT
+- Copy GooeyNav.jsx and GooeyNav.css from the source below into my components folder, unchanged (keep 'use client'). If my project is TypeScript, add a small GooeyNav.d.ts or convert with proper types, without changing the logic. No new dependencies are needed (it uses WebGL2 and a CSS fallback).
+- Do not rewrite the engine. The only permitted edit to the component: allow activeIndex = -1 to mean "no active tab" (change the clamp so -1 is preserved, make sure nothing crashes, and add a short comment). Test that going from -1 to a real tab and back works.
+
+2) WIRE IT INTO NEXT.JS ROUTING (important)
+- Build the items array from my existing single source of truth for the nav tabs (so removed/added tabs like Finance/Growth/Projects/Templates/AI flow through automatically). Memoise it with useMemo.
+- Do NOT give items an href. (An href renders <a> and causes a full page reload that kills the animation.) Use label-only items and make it controlled: activeIndex derived from usePathname() (match by route prefix, e.g. /pipeline/123 → Pipeline; return -1 if the route has no tab, e.g. Settings), and onChange={(i) => router.push(routes[i])}. Navigate IMMEDIATELY; never wait for the animation.
+- router.prefetch every nav route on mount (idle) so clicks feel instant.
+- The component must live in the SHARED LAYOUT/header that persists between pages. If the header is currently re-rendered inside each page, move it to the layout so it is not remounted on navigation (otherwise the animation never plays). Browser back/forward must also animate the pill.
+- Accessibility: keep aria-current, visible focus ring, Tab/Enter/Space work. Add a visually hidden "Main navigation" label on the nav element.
+
+3) LOOK — keep my design, change only the motion
+Use frame={false} (my tabs float on the page; no frosted panel). Props for light/dark come from my existing theme mechanism ([data-theme]); read it with a tiny hook (MutationObserver on documentElement) so toggling the theme updates live:
+- Light: theme="light", color="#17191A" (black active pill), activeTextColor="#FFFFFF", style vars: --gn-ink:#262720, --gn-muted:rgba(38,39,32,.62).
+- Dark: theme="dark", color="#F4F4F5", activeTextColor="#17191A", --gn-ink:#F4F4F5, --gn-muted:rgba(244,244,245,.62).
+Sizing to match my current nav: font 16px, active pill 50px tall, horizontal padding 22px. Pass style={{'--gn-font':'16px','--gn-x':'22px','--gn-y':'15px'}} (adjust --gn-y until the pill is exactly 50px tall) and use my app font (it inherits). 
+Motion props (snappy, not laggy, for daily use): animationTime={520} particleCount={12} spread={44} timeVariance={220} gooeyness={0.5} wobble={0.4} hoverEffect={true}. Leave `colors` empty (droplets use the pill colour).
+Add to my CSS: .gooey-nav__list { flex-wrap: nowrap; } (tabs must never wrap onto a second line), and keep the nav centred in the header grid between the brand/org pill and the right-hand controls.
+
+4) CLIPPING AND LAYOUT
+The component draws droplets on a canvas that extends 72px beyond the nav on every side. Make sure NO ancestor of the nav clips it: no overflow hidden/auto/clip, no contain: paint, no clip-path on the header or its wrappers. Give the header z-index above page content so the droplets are visible over the cards. Do not apply scale() transforms to any ancestor of the nav (it breaks measuring); translate/opacity entrance animations are fine.
+Width handling: measure it, don't assume. If the tabs don't fit on one line between the brand block and the right controls, step the font/padding down (14px, --gn-x 16px) and, below the width where they still don't fit (about 1100px), render my EXISTING tab navigation instead (keep that code; use a media-query hook so only one nav is mounted at a time). Never let the page scroll sideways.
+
+5) FALLBACKS
+prefers-reduced-motion: the component already settles without animation; confirm it. If WebGL2 is unavailable, the component's built-in CSS fallback pill must show correctly (test by forcing getContext to return null). SSR: no hydration warnings; avoid a visible flash where no pill is shown on first paint (if there is one, keep the active tab's label readable until the pill mounts).
+
+6) VERIFY (required — report actual results)
+- Clicking each tab: the pill melts into droplets and re-forms on the target; the route changes immediately; no lag; the page content does not wait for the animation.
+- Back/forward buttons and direct URL loads set the correct active tab; a route without a tab (Settings) shows no active pill and does not highlight Overview.
+- Theme toggle switches pill/text colours live. Resize from 1917px down to 390px: no wrapping, no clipped droplets, correct fallback to my existing nav below the breakpoint. Rapid clicking across tabs does not break or leave stray droplets.
+- Frame rate stays smooth (no long tasks in the Performance panel during the animation), no console errors or hydration warnings. Lint/build passes.
+- Nothing else in the UI changed visually. Show before/after screenshots of the header at 1917x946 and 1280x800 (light and dark), paste git diff --stat, and list any compromise you made. If anything fails, fix it and re-test instead of reporting success.
+
+COMPONENT SOURCE BELOW (React Bits GooeyNav, JavaScript + CSS)
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-10-28T17:13:59+05:30.
+
+The user's current state is as follows:
+Active Document: c:\Users\Henil Shah\OneDrive\Desktop\New Project\CRM PART 2\src\lib\google-sheets\repository.ts (LANGUAGE_UNSPECIFIED)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\Henil Shah\OneDrive\Desktop\New Project\CRM PART 2\src\middleware.ts (LANGUAGE_UNSPECIFIED)
+- c:\Users\Henil Shah\OneDrive\Desktop\New Project\CRM PART 2\src\components\deal\DealDetailDrawer.tsx (LANGUAGE_UNSPECIFIED)
+- c:\Users\Henil Shah\OneDrive\Desktop\New Project\CRM PART 2\.env (LANGUAGE_UNSPECIFIED)
+- c:\Users\Henil Shah\OneDrive\Desktop\New Project\CRM PART 2\.env.local (LANGUAGE_UNSPECIFIED)
+- c:\Users\Henil Shah\OneDrive\Desktop\New Project\CRM PART 2\src\app\layout.tsx (LANGUAGE_UNSPECIFIED)
+</ADDITIONAL_METADATA>

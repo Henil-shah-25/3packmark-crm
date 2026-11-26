@@ -1,0 +1,17 @@
+{
+  "name": "Developster CRM",
+  "short_name": "Developster",
+  "description": "High-performance agency CRM with real-time pipeline management and automated outreach",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FBFAF6",
+  "theme_color": "#18181B",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
+
