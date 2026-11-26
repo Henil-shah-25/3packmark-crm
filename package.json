@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "start": "next start",
     "lint": "eslint",
     "test": "npx -y tsx --test --test-concurrency=1 tests/crm-acceptance.test.ts tests/crm-persistence.test.ts tests/automations-and-calendar.test.ts tests/rbac-and-pipelines.test.ts tests/audit-and-security.test.ts tests/communication-foundation.test.ts tests/msg91-and-navigation.test.ts tests/pulse-intelligence.test.ts tests/security-phase1.test.ts tests/security-phase2.test.ts tests/security-phase3.test.ts tests/security-phase4.test.ts tests/security-phase5.test.ts tests/security-phase5-remediation.test.ts tests/security-phase5-2.test.ts tests/security-phase5-2-2.test.ts tests/security-google-sheets.test.ts"
@@ -36,6 +37,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.19",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -44,6 +46,7 @@
     "eslint-config-next": "16.4.3",
     "puppeteer-core": "^25.16.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.168.0"
   }
 }

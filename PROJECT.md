@@ -960,3 +960,14 @@ The application is deployed to **Vercel** as a full-stack Next.js project. Under
   - **Current-Stage 4-Queue Mapping & Stage-Accurate Titles (`src/lib/tasks/queues.ts`, `OverviewView.tsx`):**
     - Updated `resolveTaskQueue` to map by the deal's current resolved stage name first (`Quotation` + `Quotation Follow Up` → `Quotation Follow Up` queue), and added `formatTaskDisplayTitle` so legacy `"Call new lead: {Name}"` tasks render as `"Prepare & send quotation: {Name}"` / `"Quotation follow-up: {Name}"` when in Quotation stages.
   - **Verification:** `npx tsc --noEmit` passed (**Exit code 0, 0 errors**).
+- **2026-11-27 (GitHub Repository Push — `https://github.com/Henil-shah-25/3packmark-crm`):**
+  - **Security & `.gitignore` Check:** Verified `.env`, `.env.local`, `.env*`, `node_modules/`, `.next/`, `data/*.json`, and credential `.json` patterns were strictly ignored (`git status --ignored -s`) and zero secrets were staged.
+  - **Pre-Push Verification:** `npx tsc --noEmit` passed (**Exit code 0, 0 errors**).
+  - **GitHub Push (No Vercel Deployment):** Initialized Git on branch `main`, configured `origin` to `https://github.com/Henil-shah-25/3packmark-crm.git`, committed `276 files` (`30f1152`), and pushed `main` (`git push -u origin main`, **Exit code 0**). Zero `vercel` deployment commands were executed.
+- **2026-11-27 (Cloudflare Workers Sourcemap Fix & OpenNext Configuration):**
+  - **Disable Production Sourcemaps (`next.config.ts`):** Set `productionBrowserSourceMaps: false` and `webpack` `config.devtool = false` when `!dev` to prevent emitting >60 MiB of `.map` files (`code: 10021`).
+  - **OpenNext & Wrangler Config (`wrangler.jsonc`, `open-next.config.ts`, `package.json`, `.npmrc`, `.gitignore`):**
+    - Installed `@opennextjs/cloudflare` and `wrangler` (`devDependencies`), added `"deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"`, and added `.npmrc` (`legacy-peer-deps=true`).
+    - Created `wrangler.jsonc` (`name: "3packmark-crm"`, `compatibility_date: "2026-11-23"`, `compatibility_flags: ["nodejs_compat"]`, `upload_source_maps: false`) and `open-next.config.ts` (`defineCloudflareConfig({})`).
+    - Added `.open-next/`, `.wrangler/`, and `.dev.vars` to `.gitignore`.
+  - **Verification & Push:** `npx tsc --noEmit` passed (**Exit code 0, 0 errors**); committed and pushed `main` to `https://github.com/Henil-shah-25/3packmark-crm` (**Exit code 0**). Zero `vercel` commands run.
